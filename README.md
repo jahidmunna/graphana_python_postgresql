@@ -7,7 +7,7 @@ docker-compose up
 ```
 
 ## DB Preparation
-Create Table Using Below Qeury
+Create Table Using Below Query
 ```bash
 CREATE TABLE sample (
   id serial PRIMARY KEY,
