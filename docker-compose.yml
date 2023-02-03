@@ -1,0 +1,41 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    container_name: graphana_db
+    env_file:
+      - ./postgres/config/.env
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
+      - ./postgres/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  app:
+    depends_on:
+      - db
+    image: engine:1.01
+    container_name: graphana_engine
+    build: ./engine
+    working_dir: /engine
+    volumes:
+      - ./engine:/engine
+    env_file:
+      - ./postgres/config/.env
+    ports:
+      - "1111:1111"
+    # tty: True
+    # command: gunicorn app:app --bind 0.0.0.0:1111
+    command: python main.py
+
+  grafana:
+    depends_on:
+      - db
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    env_file:
+      - ./postgres/config/.env
+    volumes:
+      - ./grafana:/var/lib/grafana
