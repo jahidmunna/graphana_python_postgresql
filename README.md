@@ -15,8 +15,8 @@ CREATE TABLE sample (
   year numeric,
   pop numeric,
   continent text,
-  lifeExp float,
-  gdpPercap float
+  lifeexp float,
+  gdppercap float
 );
 ```
 
